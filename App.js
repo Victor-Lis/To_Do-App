@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StyleSheet, Text, View, ScrollView, FlatList, TouchableOpacity } from 'react-native';
 import Navbar from './src/components/Navbar';
 import Item from './src/components/Item';
@@ -8,7 +9,7 @@ export default function App() {
 
   const [tarefas, setTarefas] = useState([]) 
 
-  function novaTarefa(newTask){
+  async function novaTarefa(newTask){
 
     let array = []
     tarefas.map(tarefa => array.push(tarefa))
@@ -17,6 +18,7 @@ export default function App() {
     array.map(item => check(item))
 
     setTarefas(array)
+    guardarTarefas(array)
 
     function check(item){
 
@@ -30,7 +32,7 @@ export default function App() {
 
   }
 
-  function excluir(index){
+  async function excluir(index){
 
     let array = []
     tarefas.map(tarefa => array.push(tarefa))
@@ -38,8 +40,35 @@ export default function App() {
     array.splice(index, 1)
 
     setTarefas(array)
+    guardarTarefas(array)
 
   }
+
+  guardarTarefas = async (array) => {
+
+    await AsyncStorage.setItem("tarefas", JSON.stringify(array))
+
+  };
+
+  receberTarefas = async () => {
+
+    let localTasks = await AsyncStorage.getItem("tarefas")
+
+    localTasks = JSON.parse(localTasks)
+
+    if(localTasks == null){
+
+      return
+
+    }else{
+
+      setTarefas(localTasks)
+
+    }
+
+  }
+
+  useEffect(() => {receberTarefas()}, [])
 
   return (
     <View style={styles.container}>
@@ -57,7 +86,7 @@ export default function App() {
 
               <Text style={{color: "#000", fontSize: 15}}> {tarefas.indexOf(item)+1} -</Text>
               <ScrollView horizontal={true} style={{marginHorizontal: "02.5%"}}> 
-                <Text style={{fontSize: 15, color: "rgba(0,30,30, 0.8)"}}> {item} </Text>
+                <Text style={{fontSize: 15, color: "rgba(0,30,30, 0.8)"}}>{item} </Text>
               </ScrollView>
               <TouchableOpacity onPress={() => excluir(tarefas.indexOf(item))}> 
                 
@@ -87,15 +116,17 @@ const styles = StyleSheet.create({
   listArea: {
 
     justifyContent: "center",
+    height: "85%",
+    margin: 10,
 
   },
   itemArea: {
 
     flexDirection: "row",
-    backgroundColor: "#efefef",
+    backgroundColor: "#efefefef",
     borderRadius: 20,
     paddingVertical: 10,
-    paddingHorizontal: 5,
+    paddingHorizontal: 10,
     width: "100%",
     justifyContent: "center",
     alignItems: "center",

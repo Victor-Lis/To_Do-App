@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "lista-de-tarefas",
+    "name": "To Do List",
     "slug": "lista-de-tarefas",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -24,10 +24,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "dev_victor.todo_list"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "fbdefa06-1827-4479-9813-aa1b2ea18471"
+      }
     }
   }
 }
