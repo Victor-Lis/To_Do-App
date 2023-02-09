@@ -7,7 +7,7 @@ import Item from './src/components/Item';
 
 export default function App() {
 
-  const [tarefas, setTarefas] = useState([]) 
+  const [tarefas, setTarefas] = useState([])
 
   async function novaTarefa(newTask){
 
@@ -22,7 +22,7 @@ export default function App() {
 
     function check(item){
 
-      if(array[array.indexOf(item)] === undefined || array[array.indexOf(item)] === ""){
+      if(array[array.indexOf(item)] === undefined || array[array.indexOf(item)] === "" ){
 
         array.splice(array.indexOf(item), 1)
 
@@ -74,33 +74,12 @@ export default function App() {
     <View style={styles.container}>
       <Navbar Tasks={tarefas} novaTarefa={novaTarefa}/>
       <StatusBar hidden={true} style={{backgroundColor: "red"}}/>
-
       <View style={styles.listArea}>
       <FlatList
-
         style={{width: "80%"}}
         data={tarefas}
-        renderItem={({item}) => 
-
-            <View style={styles.itemArea}> 
-
-              <Text style={{color: "#000", fontSize: 15}}> {tarefas.indexOf(item)+1} -</Text>
-              <ScrollView horizontal={true} style={{marginHorizontal: "02.5%"}}> 
-                <Text style={{fontSize: 15, color: "rgba(0,30,30, 0.8)"}}>{item} </Text>
-              </ScrollView>
-              <TouchableOpacity onPress={() => excluir(tarefas.indexOf(item))}> 
-                
-                <Text style={{color: "blue", fontSize: 15}}> Excluir </Text> 
-              
-              </TouchableOpacity>
-
-            </View>
-
-        }
-      
-      />
+        renderItem={({item}) => <Item item={item} tarefas={tarefas}/> }/>
       </View>
-
     </View>
   );
 }
