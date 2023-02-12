@@ -1,22 +1,36 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState,  useRef } from 'react';
 import { StyleSheet, TextInput, TouchableOpacity, View, Text } from 'react-native';
 
 export default function Navbar({Tasks, novaTarefa}) {
 
-    let [newTask, setNewTask] = useState()
+    const [newTask, setNewTask] = useState()
+
+    const inputCreateNewTask = useRef(null)
 
     function definirNovaTarefa(){
 
-        novaTarefa(newTask)
-        setNewTask("")
+        if(newTask == null || newTask == ""){
+
+          inputCreateNewTask.current.focus()
+
+        }else{
+          novaTarefa(newTask)
+          setNewTask("")
+        }
 
     }
 
  return (
    <View style={styles.navbar}> 
 
-        <TextInput style={styles.input} value={newTask} onChangeText={setNewTask}/>
+        <TextInput 
+          style={styles.input} 
+          value={newTask} 
+          onChangeText={setNewTask}
+          ref={inputCreateNewTask}
+          placeholder="Escreva aqui!"
+        />
         <TouchableOpacity style={styles.button} onPress={() => definirNovaTarefa()}> 
             
             <Text style={{fontSize: 20}}> Adicionar </Text> 

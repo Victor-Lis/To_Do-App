@@ -78,7 +78,7 @@ export default function App() {
       <FlatList
         style={{width: "80%"}}
         data={tarefas}
-        renderItem={({item}) => <Item item={item} tarefas={tarefas}/> }/>
+        renderItem={({item, index}) => <Item item={item} index={index} tarefas={tarefas} excluir={excluir}/> }/>
       </View>
     </View>
   );
